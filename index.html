@@ -14,6 +14,7 @@
             --secondary: #0ea5e9;
             --secondary-hover: #0284c7;
             --success: #10b981;
+            --success-hover: #059669;
             --text-main: #1e293b;
             --text-light: #64748b;
             --bg-card: #ffffff;
@@ -88,13 +89,13 @@
 
         .action-buttons { 
             display: flex; 
-            gap: 15px; 
+            gap: 12px; 
             margin-bottom: 24px; 
         }
 
         button { 
             flex: 1;
-            padding: 14px 20px; 
+            padding: 14px 10px; 
             border: none; 
             border-radius: 12px; 
             cursor: pointer; 
@@ -120,6 +121,12 @@
             box-shadow: 0 4px 12px rgba(14, 165, 233, 0.2);
         }
         .btn-quote:hover { background-color: var(--secondary-hover); transform: translateY(-1px); }
+
+        .btn-sum { 
+            background-color: var(--success); 
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+        }
+        .btn-sum:hover { background-color: var(--success-hover); transform: translateY(-1px); }
 
         .result-container {
             position: relative;
@@ -164,27 +171,13 @@
             font-size: 14px;
             color: var(--text-main);
             border: 1px solid #e2e8f0;
-            margin-bottom: 12px;
-        }
-
-        .stats-box {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: #ecfdf5;
-            color: #047857;
-            padding: 12px 16px;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 15px;
-            border: 1px solid #a7f3d0;
         }
 
         /* Toast Notification */
         #toast {
             visibility: hidden;
             min-width: 200px;
-            background-color: var(--success);
+            background-color: var(--primary);
             color: #fff;
             text-align: center;
             border-radius: 8px;
@@ -196,7 +189,7 @@
             transform: translateX(-50%);
             font-size: 14px;
             font-weight: 500;
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             opacity: 0;
             transition: opacity 0.3s, bottom 0.3s;
         }
@@ -207,7 +200,7 @@
             bottom: 50px;
         }
 
-        @media (max-width: 480px) {
+        @media (max-width: 550px) {
             .action-buttons { flex-direction: column; }
             .container { padding: 20px; }
         }
@@ -217,18 +210,21 @@
 
 <div class="container">
     <h2>Monee Working Tool</h2>
-    <div class="subtitle">Chuyển đổi dữ liệu cột & Tính tổng</div>
+    <div class="subtitle">Công cụ hỗ trợ xử lý dữ liệu nhanh</div>
     
     <div class="input-group">
         <textarea id="input" placeholder="Dán danh sách dữ liệu (mỗi giá trị 1 dòng) vào đây..."></textarea>
     </div>
     
     <div class="action-buttons">
-        <button class="btn-comma" onclick="process(false)">
+        <button class="btn-comma" onclick="process('comma')">
             <i class="fa-solid fa-code"></i> Thành a,b,c
         </button>
-        <button class="btn-quote" onclick="process(true)">
+        <button class="btn-quote" onclick="process('quote')">
             <i class="fa-solid fa-quote-left"></i> Thành 'a','b','c'
+        </button>
+        <button class="btn-sum" onclick="process('sum')">
+            <i class="fa-solid fa-calculator"></i> Tính tổng
         </button>
     </div>
 
@@ -240,19 +236,13 @@
             </button>
         </div>
         <div id="result">Kết quả sẽ hiển thị ở đây...</div>
-        
-        <div class="stats-box">
-            <i class="fa-solid fa-calculator"></i>
-            <span>Tổng (Sum): </span>
-            <span id="total-sum">0</span>
-        </div>
     </div>
 </div>
 
-<div id="toast"><i class="fa-solid fa-circle-check"></i> Đã copy vào bộ nhớ tạm!</div>
+<div id="toast">Thông báo</div>
 
 <script>
-    function process(quote) {
+    function process(actionType) {
         const input = document.getElementById('input').value;
         
         if (!input.trim()) {
@@ -260,32 +250,37 @@
             return;
         }
 
+        // Tách dòng, xóa dòng trống và khoảng trắng thừa
         const lines = input.split('\n').map(l => l.trim()).filter(l => l !== "");
-        let result = "";
-        let totalSum = 0;
         
-        // Tạo chuỗi kết quả và tính tổng
-        if (quote) {
-            result = lines.map(l => `'${l}'`).join(',');
-        } else {
-            result = lines.join(',');
-        }
-        
-        // Xử lý tính tổng (lọc các giá trị là số)
-        lines.forEach(line => {
-            // Loại bỏ dấu phẩy (,) nếu người dùng copy số có định dạng sẵn như 1,000
-            const cleanNumber = line.replace(/,/g, '');
-            const num = parseFloat(cleanNumber);
-            if (!isNaN(num)) {
-                totalSum += num;
+        if (actionType === 'comma') {
+            document.getElementById('result').innerText = lines.join(',');
+        } 
+        else if (actionType === 'quote') {
+            document.getElementById('result').innerText = lines.map(l => `'${l}'`).join(',');
+        } 
+        else if (actionType === 'sum') {
+            let totalSum = 0;
+            let hasNumber = false;
+
+            lines.forEach(line => {
+                // Xóa dấu phẩy (nếu có định dạng hàng nghìn) để parse số
+                const cleanNumber = line.replace(/,/g, '');
+                const num = parseFloat(cleanNumber);
+                if (!isNaN(num)) {
+                    totalSum += num;
+                    hasNumber = true;
+                }
+            });
+
+            if (!hasNumber) {
+                showToast("Không tìm thấy số nào để tính tổng!", "#f59e0b");
+                document.getElementById('result').innerText = "0";
+            } else {
+                // Hiển thị tổng có phân cách hàng nghìn
+                document.getElementById('result').innerText = totalSum.toLocaleString('vi-VN');
             }
-        });
-        
-        // Hiển thị kết quả
-        document.getElementById('result').innerText = result;
-        
-        // Hiển thị tổng (format theo chuẩn Việt Nam: 1.000.000)
-        document.getElementById('total-sum').innerText = totalSum.toLocaleString('vi-VN');
+        }
     }
 
     function copyToClipboard() {
@@ -304,12 +299,22 @@
         });
     }
 
-    function showToast(message, color) {
+    function showToast(message, bgColor) {
         const toast = document.getElementById("toast");
-        toast.innerHTML = message;
-        toast.style.backgroundColor = color;
+        
+        // Thêm icon tương ứng với màu (thành công/lỗi/cảnh báo)
+        let icon = '<i class="fa-solid fa-circle-check"></i> ';
+        if (bgColor === '#ef4444' || bgColor === '#f59e0b') {
+            icon = '<i class="fa-solid fa-circle-exclamation"></i> ';
+        }
+
+        toast.innerHTML = icon + message;
+        toast.style.backgroundColor = bgColor;
         toast.className = "show";
-        setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 2500);
+        
+        setTimeout(function(){ 
+            toast.className = toast.className.replace("show", ""); 
+        }, 2500);
     }
 </script>
 
