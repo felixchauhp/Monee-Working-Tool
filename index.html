@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monee Working Tool</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --secondary: #0ea5e9;
+            --secondary-hover: #0284c7;
+            --success: #10b981;
+            --text-main: #1e293b;
+            --text-light: #64748b;
+            --bg-card: #ffffff;
+            --bg-body: linear-gradient(135deg, #ffffff 0%, #e0f2fe 100%);
+        }
+
+        body { 
+            font-family: 'Montserrat', sans-serif; 
+            margin: 0;
+            padding: 40px 20px; 
+            min-height: 100vh;
+            background: var(--bg-body); 
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            color: var(--text-main);
+            box-sizing: border-box;
+        }
+
+        .container { 
+            background: var(--bg-card); 
+            padding: 30px 40px; 
+            border-radius: 16px; 
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            max-width: 650px;
+            position: relative;
+        }
+
+        h2 {
+            margin-top: 0;
+            margin-bottom: 8px;
+            font-weight: 700;
+            font-size: 24px;
+            color: var(--text-main);
+            text-align: center;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--text-light);
+            font-size: 14px;
+            margin-bottom: 24px;
+            font-weight: 500;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        textarea { 
+            width: 100%; 
+            height: 160px; 
+            padding: 16px; 
+            border: 1px solid #cbd5e1; 
+            border-radius: 12px; 
+            box-sizing: border-box; 
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            resize: vertical;
+            transition: all 0.3s ease;
+            color: var(--text-main);
+            background-color: #f8fafc;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+            background-color: #ffffff;
+        }
+
+        .action-buttons { 
+            display: flex; 
+            gap: 15px; 
+            margin-bottom: 24px; 
+        }
+
+        button { 
+            flex: 1;
+            padding: 14px 20px; 
+            border: none; 
+            border-radius: 12px; 
+            cursor: pointer; 
+            color: white; 
+            font-weight: 600; 
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            transition: all 0.2s ease; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-comma { 
+            background-color: var(--primary); 
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+        }
+        .btn-comma:hover { background-color: var(--primary-hover); transform: translateY(-1px); }
+
+        .btn-quote { 
+            background-color: var(--secondary); 
+            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.2);
+        }
+        .btn-quote:hover { background-color: var(--secondary-hover); transform: translateY(-1px); }
+
+        .result-container {
+            position: relative;
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .result-title {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .btn-copy {
+            background: transparent;
+            color: var(--primary);
+            box-shadow: none;
+            padding: 4px 8px;
+            flex: none;
+            font-size: 13px;
+            border-radius: 6px;
+        }
+        
+        .btn-copy:hover {
+            background: #eff6ff;
+            transform: none;
+            color: var(--primary-hover);
+        }
+
+        #result { 
+            background: #f1f5f9; 
+            padding: 16px; 
+            border-radius: 12px; 
+            word-break: break-all; 
+            min-height: 80px; 
+            max-height: 200px;
+            overflow-y: auto;
+            font-size: 14px;
+            color: var(--text-main);
+            border: 1px solid #e2e8f0;
+            margin-bottom: 12px;
+        }
+
+        .stats-box {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #ecfdf5;
+            color: #047857;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 15px;
+            border: 1px solid #a7f3d0;
+        }
+
+        /* Toast Notification */
+        #toast {
+            visibility: hidden;
+            min-width: 200px;
+            background-color: var(--success);
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 12px;
+            position: fixed;
+            z-index: 1;
+            left: 50%;
+            bottom: 30px;
+            transform: translateX(-50%);
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+            opacity: 0;
+            transition: opacity 0.3s, bottom 0.3s;
+        }
+
+        #toast.show {
+            visibility: visible;
+            opacity: 1;
+            bottom: 50px;
+        }
+
+        @media (max-width: 480px) {
+            .action-buttons { flex-direction: column; }
+            .container { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Monee Working Tool</h2>
+    <div class="subtitle">Chuyển đổi dữ liệu cột & Tính tổng</div>
+    
+    <div class="input-group">
+        <textarea id="input" placeholder="Dán danh sách dữ liệu (mỗi giá trị 1 dòng) vào đây..."></textarea>
+    </div>
+    
+    <div class="action-buttons">
+        <button class="btn-comma" onclick="process(false)">
+            <i class="fa-solid fa-code"></i> Thành a,b,c
+        </button>
+        <button class="btn-quote" onclick="process(true)">
+            <i class="fa-solid fa-quote-left"></i> Thành 'a','b','c'
+        </button>
+    </div>
+
+    <div class="result-container">
+        <div class="result-header">
+            <span class="result-title">Kết quả:</span>
+            <button class="btn-copy" onclick="copyToClipboard()">
+                <i class="fa-regular fa-copy"></i> Copy
+            </button>
+        </div>
+        <div id="result">Kết quả sẽ hiển thị ở đây...</div>
+        
+        <div class="stats-box">
+            <i class="fa-solid fa-calculator"></i>
+            <span>Tổng (Sum): </span>
+            <span id="total-sum">0</span>
+        </div>
+    </div>
+</div>
+
+<div id="toast"><i class="fa-solid fa-circle-check"></i> Đã copy vào bộ nhớ tạm!</div>
+
+<script>
+    function process(quote) {
+        const input = document.getElementById('input').value;
+        
+        if (!input.trim()) {
+            showToast("Vui lòng nhập dữ liệu trước!", "#ef4444");
+            return;
+        }
+
+        const lines = input.split('\n').map(l => l.trim()).filter(l => l !== "");
+        let result = "";
+        let totalSum = 0;
+        
+        // Tạo chuỗi kết quả và tính tổng
+        if (quote) {
+            result = lines.map(l => `'${l}'`).join(',');
+        } else {
+            result = lines.join(',');
+        }
+        
+        // Xử lý tính tổng (lọc các giá trị là số)
+        lines.forEach(line => {
+            // Loại bỏ dấu phẩy (,) nếu người dùng copy số có định dạng sẵn như 1,000
+            const cleanNumber = line.replace(/,/g, '');
+            const num = parseFloat(cleanNumber);
+            if (!isNaN(num)) {
+                totalSum += num;
+            }
+        });
+        
+        // Hiển thị kết quả
+        document.getElementById('result').innerText = result;
+        
+        // Hiển thị tổng (format theo chuẩn Việt Nam: 1.000.000)
+        document.getElementById('total-sum').innerText = totalSum.toLocaleString('vi-VN');
+    }
+
+    function copyToClipboard() {
+        const resultText = document.getElementById('result').innerText;
+        
+        if (resultText === "Kết quả sẽ hiển thị ở đây..." || !resultText) {
+            showToast("Chưa có kết quả để copy!", "#f59e0b");
+            return;
+        }
+
+        navigator.clipboard.writeText(resultText).then(() => {
+            showToast("Đã copy vào bộ nhớ tạm!", "#10b981");
+        }).catch(err => {
+            console.error('Không thể copy: ', err);
+            showToast("Có lỗi xảy ra khi copy", "#ef4444");
+        });
+    }
+
+    function showToast(message, color) {
+        const toast = document.getElementById("toast");
+        toast.innerHTML = message;
+        toast.style.backgroundColor = color;
+        toast.className = "show";
+        setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 2500);
+    }
+</script>
+
+</body>
+</html>
