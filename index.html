@@ -37,11 +37,21 @@
         .container { 
             background: var(--bg-card); 
             padding: 30px 40px; 
-            border-radius: 16px; 
+            border-radius: 20px; 
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
             width: 100%;
             max-width: 650px;
             position: relative;
+        }
+
+        .logo-wrapper {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .logo-wrapper img {
+            max-width: 120px;
+            height: auto;
         }
 
         h2 {
@@ -61,10 +71,6 @@
             font-weight: 500;
         }
 
-        .input-group {
-            margin-bottom: 20px;
-        }
-
         textarea { 
             width: 100%; 
             height: 160px; 
@@ -76,8 +82,8 @@
             font-size: 14px;
             resize: vertical;
             transition: all 0.3s ease;
-            color: var(--text-main);
             background-color: #f8fafc;
+            margin-bottom: 20px;
         }
 
         textarea:focus {
@@ -102,7 +108,7 @@
             color: white; 
             font-weight: 600; 
             font-family: 'Montserrat', sans-serif;
-            font-size: 14px;
+            font-size: 13px;
             transition: all 0.2s ease; 
             display: flex;
             align-items: center;
@@ -110,27 +116,14 @@
             gap: 8px;
         }
 
-        .btn-comma { 
-            background-color: var(--primary); 
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
-        }
+        .btn-comma { background-color: var(--primary); box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); }
         .btn-comma:hover { background-color: var(--primary-hover); transform: translateY(-1px); }
 
-        .btn-quote { 
-            background-color: var(--secondary); 
-            box-shadow: 0 4px 12px rgba(14, 165, 233, 0.2);
-        }
+        .btn-quote { background-color: var(--secondary); box-shadow: 0 4px 12px rgba(14, 165, 233, 0.2); }
         .btn-quote:hover { background-color: var(--secondary-hover); transform: translateY(-1px); }
 
-        .btn-sum { 
-            background-color: var(--success); 
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
-        }
+        .btn-sum { background-color: var(--success); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2); }
         .btn-sum:hover { background-color: var(--success-hover); transform: translateY(-1px); }
-
-        .result-container {
-            position: relative;
-        }
 
         .result-header {
             display: flex;
@@ -139,26 +132,17 @@
             margin-bottom: 8px;
         }
 
-        .result-title {
-            font-weight: 600;
-            font-size: 14px;
-        }
+        .result-title { font-weight: 600; font-size: 14px; }
 
         .btn-copy {
             background: transparent;
             color: var(--primary);
-            box-shadow: none;
             padding: 4px 8px;
             flex: none;
             font-size: 13px;
-            border-radius: 6px;
         }
         
-        .btn-copy:hover {
-            background: #eff6ff;
-            transform: none;
-            color: var(--primary-hover);
-        }
+        .btn-copy:hover { background: #eff6ff; color: var(--primary-hover); transform: none; }
 
         #result { 
             background: #f1f5f9; 
@@ -166,55 +150,60 @@
             border-radius: 12px; 
             word-break: break-all; 
             min-height: 80px; 
-            max-height: 200px;
+            max-height: 180px;
             overflow-y: auto;
             font-size: 14px;
-            color: var(--text-main);
             border: 1px solid #e2e8f0;
         }
 
-        /* Toast Notification */
+        .footer-stats {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 12px;
+            padding-top: 8px;
+            border-top: 1px dashed #cbd5e1;
+            font-size: 12px;
+            color: var(--text-light);
+            font-weight: 600;
+        }
+
         #toast {
             visibility: hidden;
-            min-width: 200px;
+            min-width: 220px;
             background-color: var(--primary);
             color: #fff;
             text-align: center;
             border-radius: 8px;
             padding: 12px;
             position: fixed;
-            z-index: 1;
+            z-index: 10;
             left: 50%;
             bottom: 30px;
             transform: translateX(-50%);
             font-size: 14px;
-            font-weight: 500;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             opacity: 0;
             transition: opacity 0.3s, bottom 0.3s;
         }
 
-        #toast.show {
-            visibility: visible;
-            opacity: 1;
-            bottom: 50px;
-        }
+        #toast.show { visibility: visible; opacity: 1; bottom: 50px; }
 
         @media (max-width: 550px) {
             .action-buttons { flex-direction: column; }
-            .container { padding: 20px; }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>Monee Working Tool</h2>
-    <div class="subtitle">Công cụ hỗ trợ xử lý dữ liệu nhanh</div>
-    
-    <div class="input-group">
-        <textarea id="input" placeholder="Dán danh sách dữ liệu (mỗi giá trị 1 dòng) vào đây..."></textarea>
+    <div class="logo-wrapper">
+        <img src="monee_logo.png" alt="Monee Logo">
     </div>
+    
+    <h2>Monee Working Tool</h2>
+    <div class="subtitle">Xử lý dữ liệu cột Excel chuyên nghiệp</div>
+    
+    <textarea id="input" placeholder="Dán danh sách dữ liệu từ Excel vào đây..."></textarea>
     
     <div class="action-buttons">
         <button class="btn-comma" onclick="process('comma')">
@@ -228,14 +217,16 @@
         </button>
     </div>
 
-    <div class="result-container">
-        <div class="result-header">
-            <span class="result-title">Kết quả:</span>
-            <button class="btn-copy" onclick="copyToClipboard()">
-                <i class="fa-regular fa-copy"></i> Copy
-            </button>
-        </div>
-        <div id="result">Kết quả sẽ hiển thị ở đây...</div>
+    <div class="result-header">
+        <span class="result-title">Kết quả:</span>
+        <button class="btn-copy" onclick="copyToClipboard()">
+            <i class="fa-regular fa-copy"></i> Copy kết quả
+        </button>
+    </div>
+    <div id="result">Kết quả sẽ hiển thị ở đây...</div>
+
+    <div class="footer-stats">
+        <span>Số lượng cell đã xử lý: <span id="cell-count">0</span></span>
     </div>
 </div>
 
@@ -243,16 +234,19 @@
 
 <script>
     function process(actionType) {
-        const input = document.getElementById('input').value;
+        const inputVal = document.getElementById('input').value;
         
-        if (!input.trim()) {
-            showToast("Vui lòng nhập dữ liệu trước!", "#ef4444");
+        if (!inputVal.trim()) {
+            showToast("Vui lòng dán dữ liệu vào ô trống!", "#ef4444");
             return;
         }
 
-        // Tách dòng, xóa dòng trống và khoảng trắng thừa
-        const lines = input.split('\n').map(l => l.trim()).filter(l => l !== "");
+        const lines = inputVal.split('\n').map(l => l.trim()).filter(l => l !== "");
+        const cellCount = lines.length;
         
+        // Cập nhật số lượng cell
+        document.getElementById('cell-count').innerText = cellCount;
+
         if (actionType === 'comma') {
             document.getElementById('result').innerText = lines.join(',');
         } 
@@ -261,23 +255,21 @@
         } 
         else if (actionType === 'sum') {
             let totalSum = 0;
-            let hasNumber = false;
+            let foundNumber = false;
 
             lines.forEach(line => {
-                // Xóa dấu phẩy (nếu có định dạng hàng nghìn) để parse số
                 const cleanNumber = line.replace(/,/g, '');
                 const num = parseFloat(cleanNumber);
                 if (!isNaN(num)) {
                     totalSum += num;
-                    hasNumber = true;
+                    foundNumber = true;
                 }
             });
 
-            if (!hasNumber) {
-                showToast("Không tìm thấy số nào để tính tổng!", "#f59e0b");
+            if (!foundNumber) {
+                showToast("Không tìm thấy giá trị số nào!", "#f59e0b");
                 document.getElementById('result').innerText = "0";
             } else {
-                // Hiển thị tổng có phân cách hàng nghìn
                 document.getElementById('result').innerText = totalSum.toLocaleString('vi-VN');
             }
         }
@@ -285,36 +277,22 @@
 
     function copyToClipboard() {
         const resultText = document.getElementById('result').innerText;
-        
         if (resultText === "Kết quả sẽ hiển thị ở đây..." || !resultText) {
-            showToast("Chưa có kết quả để copy!", "#f59e0b");
+            showToast("Chưa có nội dung để copy!", "#f59e0b");
             return;
         }
 
         navigator.clipboard.writeText(resultText).then(() => {
             showToast("Đã copy vào bộ nhớ tạm!", "#10b981");
-        }).catch(err => {
-            console.error('Không thể copy: ', err);
-            showToast("Có lỗi xảy ra khi copy", "#ef4444");
         });
     }
 
     function showToast(message, bgColor) {
         const toast = document.getElementById("toast");
-        
-        // Thêm icon tương ứng với màu (thành công/lỗi/cảnh báo)
-        let icon = '<i class="fa-solid fa-circle-check"></i> ';
-        if (bgColor === '#ef4444' || bgColor === '#f59e0b') {
-            icon = '<i class="fa-solid fa-circle-exclamation"></i> ';
-        }
-
-        toast.innerHTML = icon + message;
+        toast.innerHTML = message;
         toast.style.backgroundColor = bgColor;
         toast.className = "show";
-        
-        setTimeout(function(){ 
-            toast.className = toast.className.replace("show", ""); 
-        }, 2500);
+        setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 2500);
     }
 </script>
 
