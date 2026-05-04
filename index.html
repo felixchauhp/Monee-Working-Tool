@@ -15,182 +15,134 @@
             --secondary-hover: #0284c7;
             --success: #10b981;
             --success-hover: #059669;
+            --danger: #ef4444;
+            --warning: #f59e0b;
             --text-main: #1e293b;
             --text-light: #64748b;
             --bg-card: #ffffff;
             --bg-body: linear-gradient(135deg, #ffffff 0%, #e0f2fe 100%);
+            --border-color: #cbd5e1;
         }
 
         body { 
-            font-family: 'Montserrat', sans-serif; 
-            margin: 0;
-            padding: 40px 20px; 
-            min-height: 100vh;
-            background: var(--bg-body); 
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            color: var(--text-main);
-            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif; margin: 0;
+            padding: 40px 20px; min-height: 100vh;
+            background: var(--bg-body); display: flex;
+            justify-content: center; align-items: flex-start;
+            color: var(--text-main); box-sizing: border-box;
         }
 
         .container { 
-            background: var(--bg-card); 
-            padding: 30px 40px; 
-            border-radius: 20px; 
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-            width: 100%;
-            max-width: 650px;
-            position: relative;
+            background: var(--bg-card); padding: 30px 40px; 
+            border-radius: 20px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            width: 100%; max-width: 1000px; position: relative;
         }
 
-        .logo-wrapper {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .logo-wrapper img {
-            max-width: 120px;
-            height: auto;
-        }
+        .logo-wrapper { text-align: center; margin-bottom: 20px; }
+        .logo-wrapper img { max-width: 120px; height: auto; }
 
         h2 {
-            margin-top: 0;
-            margin-bottom: 8px;
-            font-weight: 700;
-            font-size: 24px;
-            color: var(--text-main);
-            text-align: center;
+            margin-top: 0; margin-bottom: 8px; font-weight: 700;
+            font-size: 24px; color: var(--text-main); text-align: center;
         }
 
         .subtitle {
-            text-align: center;
-            color: var(--text-light);
-            font-size: 14px;
-            margin-bottom: 24px;
-            font-weight: 500;
+            text-align: center; color: var(--text-light); font-size: 14px;
+            margin-bottom: 24px; font-weight: 500;
+        }
+
+        /* --- TABS SYSTEM --- */
+        .tabs {
+            display: flex; gap: 10px; margin-bottom: 20px;
+            border-bottom: 2px solid var(--border-color); flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 12px 20px; cursor: pointer; border: none; background: none;
+            font-weight: 600; font-family: 'Montserrat', sans-serif; font-size: 14px;
+            color: var(--text-light); border-bottom: 3px solid transparent;
+            margin-bottom: -2px; transition: all 0.2s ease;
+        }
+
+        .tab-btn:hover { color: var(--primary); }
+        .tab-btn.active { color: var(--primary); border-bottom: 3px solid var(--primary); }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* --- FORM ELEMENTS --- */
+        .input-group label {
+            display: block; font-weight: 600; font-size: 13px;
+            margin-bottom: 8px; color: var(--text-main);
         }
 
         textarea { 
-            width: 100%; 
-            height: 160px; 
-            padding: 16px; 
-            border: 1px solid #cbd5e1; 
-            border-radius: 12px; 
-            box-sizing: border-box; 
-            font-family: 'Montserrat', sans-serif;
-            font-size: 14px;
-            resize: vertical;
-            transition: all 0.3s ease;
-            background-color: #f8fafc;
-            margin-bottom: 20px;
+            width: 100%; height: 160px; padding: 16px; 
+            border: 1px solid var(--border-color); border-radius: 12px; 
+            box-sizing: border-box; font-family: 'Montserrat', sans-serif;
+            font-size: 13px; resize: vertical; transition: all 0.3s ease;
+            background-color: #f8fafc; margin-bottom: 20px; white-space: pre;
         }
-
+        textarea.half-height { height: 120px; }
         textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-            background-color: #ffffff;
+            outline: none; border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); background-color: #ffffff;
         }
 
-        .action-buttons { 
-            display: flex; 
-            gap: 12px; 
-            margin-bottom: 24px; 
-        }
+        .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
 
-        button { 
-            flex: 1;
-            padding: 14px 10px; 
-            border: none; 
-            border-radius: 12px; 
-            cursor: pointer; 
-            color: white; 
-            font-weight: 600; 
-            font-family: 'Montserrat', sans-serif;
-            font-size: 13px;
-            transition: all 0.2s ease; 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .btn-comma { background-color: var(--primary); box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); }
-        .btn-comma:hover { background-color: var(--primary-hover); transform: translateY(-1px); }
-
-        .btn-quote { background-color: var(--secondary); box-shadow: 0 4px 12px rgba(14, 165, 233, 0.2); }
-        .btn-quote:hover { background-color: var(--secondary-hover); transform: translateY(-1px); }
-
-        .btn-sum { background-color: var(--success); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2); }
-        .btn-sum:hover { background-color: var(--success-hover); transform: translateY(-1px); }
-
-        .result-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-
-        .result-title { font-weight: 600; font-size: 14px; }
-
-        .btn-copy {
-            background: transparent;
-            color: var(--primary);
-            padding: 4px 8px;
-            flex: none;
-            font-size: 13px;
+        .action-buttons { display: flex; gap: 12px; margin-bottom: 24px; }
+        button.btn-action { 
+            flex: 1; padding: 14px 10px; border: none; border-radius: 12px; 
+            cursor: pointer; color: white; font-weight: 600; 
+            font-family: 'Montserrat', sans-serif; font-size: 13px;
+            transition: all 0.2s ease; display: flex; align-items: center; 
+            justify-content: center; gap: 8px;
         }
         
-        .btn-copy:hover { background: #eff6ff; color: var(--primary-hover); transform: none; }
+        .btn-comma { background-color: var(--primary); box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); }
+        .btn-comma:hover { background-color: var(--primary-hover); transform: translateY(-1px); }
+        .btn-quote { background-color: var(--secondary); box-shadow: 0 4px 12px rgba(14, 165, 233, 0.2); }
+        .btn-quote:hover { background-color: var(--secondary-hover); transform: translateY(-1px); }
+        .btn-sum { background-color: var(--success); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2); }
+        .btn-sum:hover { background-color: var(--success-hover); transform: translateY(-1px); }
+        
+        .btn-compare { background-color: #8b5cf6; box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2); width: 100%; margin-bottom: 20px; }
+        .btn-compare:hover { background-color: #7c3aed; transform: translateY(-1px); }
+        
+        .result-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        .result-title { font-weight: 600; font-size: 14px; }
+        .btn-copy { background: transparent; color: var(--primary); padding: 4px 8px; flex: none; font-size: 13px; border: none; cursor: pointer; border-radius: 6px; font-weight: 600; font-family: 'Montserrat', sans-serif;}
+        .btn-copy:hover { background: #eff6ff; color: var(--primary-hover); }
 
-        #result { 
-            background: #f1f5f9; 
-            padding: 16px; 
-            border-radius: 12px; 
-            word-break: break-all; 
-            min-height: 80px; 
-            max-height: 180px;
-            overflow-y: auto;
-            font-size: 14px;
-            border: 1px solid #e2e8f0;
+        .result-box { 
+            background: #f1f5f9; padding: 16px; border-radius: 12px; 
+            word-break: break-all; min-height: 80px; max-height: 450px;
+            overflow-y: auto; font-size: 13px; border: 1px solid var(--border-color);
         }
 
-        .footer-stats {
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 12px;
-            padding-top: 8px;
-            border-top: 1px dashed #cbd5e1;
-            font-size: 12px;
-            color: var(--text-light);
-            font-weight: 600;
-        }
+        /* --- TABLE STYLES --- */
+        .table-result { width: 100%; border-collapse: collapse; text-align: left; background: #fff;}
+        .table-result th, .table-result td { padding: 8px 10px; border: 1px solid var(--border-color); }
+        .table-result th { position: sticky; top: 0; white-space: nowrap; }
+        .match-true { color: #059669; font-weight: bold; background: #ecfdf5;}
+        .match-false { color: #dc2626; font-weight: bold; background: #fef2f2;}
+        .match-null { color: var(--text-light); font-style: italic; }
+
+        .footer-stats { display: flex; justify-content: flex-end; margin-top: 12px; padding-top: 8px; border-top: 1px dashed var(--border-color); font-size: 12px; color: var(--text-light); font-weight: 600; }
 
         #toast {
-            visibility: hidden;
-            min-width: 220px;
-            background-color: var(--primary);
-            color: #fff;
-            text-align: center;
-            border-radius: 8px;
-            padding: 12px;
-            position: fixed;
-            z-index: 10;
-            left: 50%;
-            bottom: 30px;
-            transform: translateX(-50%);
-            font-size: 14px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            opacity: 0;
-            transition: opacity 0.3s, bottom 0.3s;
+            visibility: hidden; min-width: 220px; background-color: var(--primary);
+            color: #fff; text-align: center; border-radius: 8px; padding: 12px;
+            position: fixed; z-index: 10; left: 50%; bottom: 30px; transform: translateX(-50%);
+            font-size: 14px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            opacity: 0; transition: opacity 0.3s, bottom 0.3s;
         }
-
         #toast.show { visibility: visible; opacity: 1; bottom: 50px; }
 
-        @media (max-width: 550px) {
-            .action-buttons { flex-direction: column; }
-        }
+        @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -200,99 +152,335 @@
         <img src="monee_logo.png" alt="Monee Logo">
     </div>
     
-    <h2>Monee Working Tool</h2>
-    <div class="subtitle">Xử lý dữ liệu cột Excel chuyên nghiệp</div>
-    
-    <textarea id="input" placeholder="Dán danh sách dữ liệu từ Excel vào đây..."></textarea>
-    
-    <div class="action-buttons">
-        <button class="btn-comma" onclick="process('comma')">
-            <i class="fa-solid fa-code"></i> Thành a,b,c
-        </button>
-        <button class="btn-quote" onclick="process('quote')">
-            <i class="fa-solid fa-quote-left"></i> Thành 'a','b','c'
-        </button>
-        <button class="btn-sum" onclick="process('sum')">
-            <i class="fa-solid fa-calculator"></i> Tính tổng
-        </button>
+    <h2>Monee Quick Tool</h2>
+    <div class="subtitle">©️ 2026 Felix Chau Hoai Phuc</div>
+
+    <!-- TABS HEADER -->
+    <div class="tabs">
+        <button class="tab-btn active" onclick="openTab('tab-main', this)">Tool</button>
+        <button class="tab-btn" onclick="openTab('tab-compare1', this)">Compare 1</button>
+        <button class="tab-btn" onclick="openTab('tab-compare2', this)">Compare 2</button>
     </div>
 
-    <div class="result-header">
-        <span class="result-title">Kết quả:</span>
-        <button class="btn-copy" onclick="copyToClipboard()">
-            <i class="fa-regular fa-copy"></i> Copy kết quả
-        </button>
-    </div>
-    <div id="result">Kết quả sẽ hiển thị ở đây...</div>
+    <!-- TAB 1: TOOL XỬ LÝ -->
+    <div id="tab-main" class="tab-content active">
+        <textarea id="input-main" placeholder="Dán danh sách dữ liệu từ Excel vào đây..."></textarea>
+        
+        <div class="action-buttons">
+            <button class="btn-action btn-comma" onclick="processMain('comma')"><i class="fa-solid fa-code"></i> Thành a,b,c</button>
+            <button class="btn-action btn-quote" onclick="processMain('quote')"><i class="fa-solid fa-quote-left"></i> Thành 'a','b','c'</button>
+            <button class="btn-action btn-sum" onclick="processMain('sum')"><i class="fa-solid fa-calculator"></i> Tính tổng</button>
+        </div>
 
-    <div class="footer-stats">
-        <span>Số lượng cell đã xử lý: <span id="cell-count">0</span></span>
+        <div class="result-header">
+            <span class="result-title">Kết quả:</span>
+            <button class="btn-copy" onclick="copyToClipboard('result-main')"><i class="fa-regular fa-copy"></i> Copy kết quả</button>
+        </div>
+        <div id="result-main" class="result-box">Kết quả sẽ hiển thị ở đây...</div>
+
+        <div class="footer-stats">
+            <span>Số lượng cell đã xử lý: <span id="cell-count">0</span></span>
+        </div>
     </div>
+
+    <!-- TAB 2: COMPARE 1 (SHEET 1) -->
+    <div id="tab-compare1" class="tab-content">
+        <div class="grid-2">
+            <div class="input-group">
+                <label>1. Cột Platform User ID (Excel)</label>
+                <textarea id="c1-ex-pid" class="half-height" placeholder="Dán cột Platform User ID..."></textarea>
+            </div>
+            <div class="input-group">
+                <label>2. Cột Credit UID (Excel)</label>
+                <textarea id="c1-ex-cid" class="half-height" placeholder="Dán cột Credit UID..."></textarea>
+            </div>
+        </div>
+        
+        <div class="input-group">
+            <label>3. Dán bảng từ Datasuit (Cần: platform_user_id, user_id, 3 cột amount frozen, has_wrriteoff)</label>
+            <textarea id="c1-ds" class="half-height" placeholder="Copy toàn bộ bảng từ Datasuit dán vào đây..."></textarea>
+        </div>
+        
+        <button class="btn-action btn-compare" onclick="runCompare1()"><i class="fa-solid fa-layer-group"></i> So Khớp Compare 1 (Sheet 1)</button>
+
+        <div class="result-header">
+            <span class="result-title">Kết quả đối soát:</span>
+            <button class="btn-copy" onclick="copyTableToClipboard('table-res-1')"><i class="fa-regular fa-copy"></i> Copy Bảng</button>
+        </div>
+        <div id="result-compare1" class="result-box" style="padding: 0;">
+            <div style="padding: 16px; color: var(--text-light);">Kết quả sẽ hiển thị ở đây...</div>
+        </div>
+    </div>
+
+    <!-- TAB 3: COMPARE 2 (SHEET 2) -->
+    <div id="tab-compare2" class="tab-content">
+        <div class="grid-2">
+            <div class="input-group">
+                <label>1. Dán 3 cột (Platform User ID, Credit UID, Amount)</label>
+                <textarea id="c2-ex-combined" class="half-height" placeholder="Copy 3 cột liền nhau từ Excel và dán thẳng vào đây..."></textarea>
+            </div>
+            <div class="input-group">
+                <label>2. Cột Hình thức thanh toán</label>
+                <textarea id="c2-ex-method" class="half-height" placeholder="Dán cột Hình thức thanh toán vào đây..."></textarea>
+            </div>
+        </div>
+        
+        <div class="input-group">
+            <label>3. Dán bảng từ Datasuit (Cần: platform_user_id, credit_user_id, total_amount_os, total_of_normal_bill)</label>
+            <span style="font-size: 12px; color: #ef4444; font-weight: 600; display: block; margin-bottom: 8px;">
+                * Cột "Bill Day" sẽ được tool tự động trích xuất từ bảng Datasuit mà bạn đã dán ở Tab Compare 1.
+            </span>
+            <textarea id="c2-ds" class="half-height" placeholder="Copy toàn bộ bảng từ Datasuit dán vào đây..."></textarea>
+        </div>
+        
+        <button class="btn-action btn-compare" onclick="runCompare2()"><i class="fa-solid fa-money-check-dollar"></i> So Khớp Compare 2 (Sheet 2)</button>
+
+        <div class="result-header">
+            <span class="result-title">Kết quả đối soát:</span>
+            <button class="btn-copy" onclick="copyTableToClipboard('table-res-2')"><i class="fa-regular fa-copy"></i> Copy Bảng</button>
+        </div>
+        <div id="result-compare2" class="result-box" style="padding: 0;">
+            <div style="padding: 16px; color: var(--text-light);">Kết quả sẽ hiển thị ở đây...</div>
+        </div>
+    </div>
+
 </div>
 
 <div id="toast">Thông báo</div>
 
 <script>
-    function process(actionType) {
-        const inputVal = document.getElementById('input').value;
-        
-        if (!inputVal.trim()) {
-            showToast("Vui lòng dán dữ liệu vào ô trống!", "#ef4444");
-            return;
-        }
+    // --- CHUYỂN TAB ---
+    function openTab(tabId, element) {
+        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        element.classList.add('active');
+    }
 
-        const lines = inputVal.split('\n').map(l => l.trim()).filter(l => l !== "");
-        const cellCount = lines.length;
-        
-        // Cập nhật số lượng cell
-        document.getElementById('cell-count').innerText = cellCount;
+    // --- HÀM HELPER: LẤY MẢNG DỮ LIỆU TỪ TEXTAREA ---
+    function getLines(id) {
+        return document.getElementById(id).value.split('\n').map(l => l.trim()).filter(l => l !== "");
+    }
 
+    // --- LOGIC TAB 1: MAIN TOOL ---
+    function processMain(actionType) {
+        const lines = getLines('input-main');
+        if (lines.length === 0) return showToast("Vui lòng dán dữ liệu vào ô trống!", "#ef4444");
+        
+        document.getElementById('cell-count').innerText = lines.length;
         if (actionType === 'comma') {
-            document.getElementById('result').innerText = lines.join(',');
-        } 
-        else if (actionType === 'quote') {
-            document.getElementById('result').innerText = lines.map(l => `'${l}'`).join(',');
-        } 
-        else if (actionType === 'sum') {
-            let totalSum = 0;
-            let foundNumber = false;
-
+            document.getElementById('result-main').innerText = lines.join(',');
+        } else if (actionType === 'quote') {
+            document.getElementById('result-main').innerText = lines.map(l => `'${l}'`).join(',');
+        } else if (actionType === 'sum') {
+            let totalSum = 0, foundNumber = false;
             lines.forEach(line => {
-                const cleanNumber = line.replace(/,/g, '');
-                const num = parseFloat(cleanNumber);
-                if (!isNaN(num)) {
-                    totalSum += num;
-                    foundNumber = true;
-                }
+                const num = parseFloat(line.replace(/,/g, ''));
+                if (!isNaN(num)) { totalSum += num; foundNumber = true; }
             });
-
-            if (!foundNumber) {
-                showToast("Không tìm thấy giá trị số nào!", "#f59e0b");
-                document.getElementById('result').innerText = "0";
-            } else {
-                document.getElementById('result').innerText = totalSum.toLocaleString('vi-VN');
-            }
+            document.getElementById('result-main').innerText = foundNumber ? totalSum.toString() : "0";
+            if (!foundNumber) showToast("Không tìm thấy giá trị số nào!", "#f59e0b");
         }
     }
 
-    function copyToClipboard() {
-        const resultText = document.getElementById('result').innerText;
-        if (resultText === "Kết quả sẽ hiển thị ở đây..." || !resultText) {
-            showToast("Chưa có nội dung để copy!", "#f59e0b");
-            return;
+    // --- LOGIC TAB 2: COMPARE 1 (SHEET 1) ---
+    function runCompare1() {
+        const pids = getLines('c1-ex-pid');
+        const cids = getLines('c1-ex-cid');
+        const dsRaw = document.getElementById('c1-ds').value.trim();
+
+        if (pids.length === 0 || cids.length === 0 || !dsRaw) return showToast("Vui lòng nhập đủ dữ liệu!", "#ef4444");
+        
+        // Cảnh báo nếu lệch số dòng
+        if (pids.length !== cids.length) {
+            return showToast(`Lỗi: Cột Platform User ID có ${pids.length} dòng, nhưng cột Credit UID có ${cids.length} dòng. Vui lòng dán lại cho khớp!`, "#ef4444");
         }
 
-        navigator.clipboard.writeText(resultText).then(() => {
-            showToast("Đã copy vào bộ nhớ tạm!", "#10b981");
-        });
+        const dsLines = dsRaw.split('\n').map(l => l.split('\t'));
+        const dsHeaders = dsLines[0].map(h => h.trim().toLowerCase());
+        
+        const cols = {
+            platform: dsHeaders.indexOf('platform_user_id'), user: dsHeaders.indexOf('user_id'),
+            perm: dsHeaders.indexOf('common_perm_frozen_credit_amount'),
+            temp: dsHeaders.indexOf('common_temp_frozen_credit_amount'),
+            camp: dsHeaders.indexOf('campaign_temp_frozen_credit_amount'),
+            writeoff: dsHeaders.indexOf('has_wrriteoff')
+        };
+        for (let k in cols) if (cols[k] === -1) return showToast(`DS thiếu cột: ${k}`, "#ef4444");
+
+        const dsMap = {};
+        for (let i = 1; i < dsLines.length; i++) {
+            const c = dsLines[i];
+            if (c.length > Math.max(...Object.values(cols))) {
+                dsMap[c[cols.platform].trim()] = {
+                    userId: c[cols.user].trim(), writeoff: c[cols.writeoff].trim().toLowerCase(),
+                    limitOk: (parseFloat(c[cols.perm].replace(/,/g,''))||0) === 0 && 
+                             (parseFloat(c[cols.temp].replace(/,/g,''))||0) === 0 && 
+                             (parseFloat(c[cols.camp].replace(/,/g,''))||0) === 0
+                };
+            }
+        }
+
+        let htmlTable = `<table id="table-res-1" class="table-result">
+            <tr>
+                <th style="background-color: #d1e7dd; color: #000;">Platform User ID</th>
+                <th style="background-color: #ff0000; color: #fff;">CREDIT UID</th>
+                <th style="background-color: #ff0000; color: #fff;">LIMIT</th>
+                <th style="background-color: #ff0000; color: #fff;">NO WRITE OFF</th>
+            </tr>`;
+            
+        for (let i = 0; i < pids.length; i++) {
+            const p = pids[i]; const ds = dsMap[p];
+            if (!ds) {
+                htmlTable += `<tr><td>${p}</td><td class="match-null" colspan="3">Not Found</td></tr>`; continue;
+            }
+            const matchCid = (cids[i] === ds.userId);
+            const matchW = (ds.writeoff === 'no');
+            htmlTable += `<tr>
+                <td>${p}</td>
+                <td class="${matchCid?'match-true':'match-false'}">${matchCid?'TRUE':'FALSE'}</td>
+                <td class="${ds.limitOk?'match-true':'match-false'}">${ds.limitOk?'TRUE':'FALSE'}</td>
+                <td class="${matchW?'match-true':'match-false'}">${matchW?'TRUE':'FALSE'}</td>
+            </tr>`;
+        }
+        document.getElementById('result-compare1').innerHTML = htmlTable + `</table>`;
+        showToast("Đối soát Compare 1 hoàn tất!", "#10b981");
+    }
+
+    // --- LOGIC TAB 3: COMPARE 2 (SHEET 2) ---
+    function runCompare2() {
+        const combinedLines = getLines('c2-ex-combined');
+        const methods = getLines('c2-ex-method');
+        const dsRaw2 = document.getElementById('c2-ds').value.trim();
+
+        if (combinedLines.length === 0 || !dsRaw2) return showToast("Vui lòng nhập tối thiểu 3 cột Excel và Datasuit!", "#ef4444");
+
+        // Cảnh báo nếu lệch số dòng
+        if (methods.length > 0 && combinedLines.length !== methods.length) {
+            return showToast(`Lỗi: Dữ liệu 3 cột đầu có ${combinedLines.length} dòng, nhưng cột Hình thức thanh toán có ${methods.length} dòng. Vui lòng kiểm tra lại!`, "#ef4444");
+        }
+
+        // Lấy Datasuit 1 (để trích xuất Bill Day)
+        let ds1Map = {};
+        const dsRaw1 = document.getElementById('c1-ds').value.trim();
+        if (dsRaw1) {
+            const dsLines1 = dsRaw1.split('\n').map(l => l.split('\t'));
+            const dsHeaders1 = dsLines1[0].map(h => h.trim().toLowerCase());
+            const idxP1 = dsHeaders1.indexOf('platform_user_id');
+            const idxB1 = dsHeaders1.indexOf('bill_day');
+            if (idxP1 !== -1 && idxB1 !== -1) {
+                for(let i=1; i<dsLines1.length; i++) {
+                    if(dsLines1[i].length > Math.max(idxP1, idxB1)) {
+                        ds1Map[dsLines1[i][idxP1].trim()] = dsLines1[i][idxB1].trim();
+                    }
+                }
+            }
+        }
+
+        // Xử lý Datasuit 2
+        const dsLines2 = dsRaw2.split('\n').map(l => l.split('\t'));
+        const dsHeaders2 = dsLines2[0].map(h => h.trim().toLowerCase());
+        const cols = {
+            platform: dsHeaders2.indexOf('platform_user_id'),
+            creditUser: dsHeaders2.indexOf('credit_user_id'),
+            totalOs: dsHeaders2.indexOf('total_amount_os'),
+            normalBill: dsHeaders2.indexOf('total_of_normal_bill')
+        };
+        
+        if (cols.platform === -1 || cols.creditUser === -1 || cols.totalOs === -1 || cols.normalBill === -1) {
+            return showToast(`DS 2 thiếu cột (cần: platform_user_id, credit_user_id, total_amount_os, total_of_normal_bill)`, "#ef4444");
+        }
+
+        const ds2Map = {};
+        for (let i = 1; i < dsLines2.length; i++) {
+            const c = dsLines2[i];
+            if (c.length > Math.max(...Object.values(cols))) {
+                ds2Map[c[cols.platform].trim()] = {
+                    cUid: c[cols.creditUser].trim(),
+                    totOs: parseFloat(c[cols.totalOs].replace(/,/g, '')) || 0,
+                    normBill: parseFloat(c[cols.normalBill].replace(/,/g, '')) || 0
+                };
+            }
+        }
+
+        let htmlTable = `<table id="table-res-2" class="table-result">
+            <tr>
+                <th style="background-color: #d1e7dd; color: #000;">Platform User ID</th>
+                <th style="background-color: #ffe6cc; color: #000;">Credit UID</th>
+                <th style="background-color: #ffe6cc; color: #000;">Amount</th>
+                <th style="background-color: #ffe6cc; color: #000;">Hình thức thanh toán</th>
+                <th style="background-color: #fff; color: #000;">Bill Day</th>
+                <th style="background-color: #fff; color: #000;">Chênh lệch</th>
+                <th style="background-color: #ff0000; color: #fff;">CREDIT UID</th>
+                <th style="background-color: #ff0000; color: #fff;">TOTAL AMOUNT (OUTSTANDING)</th>
+                <th style="background-color: #ff0000; color: #fff;">CHECK AMOUNT (NORMAL)</th>
+            </tr>`;
+            
+        for (let i = 0; i < combinedLines.length; i++) {
+            const splitCols = combinedLines[i].split('\t');
+            const p = splitCols[0] ? splitCols[0].trim() : '';
+            const exCid = splitCols[1] ? splitCols[1].trim() : '';
+            const rawAmt = splitCols[2] ? splitCols[2].trim() : '0';
+            const exAmt = parseFloat(rawAmt.replace(/,/g, '')) || 0;
+            
+            const method = methods[i] ? methods[i].trim() : '';
+            const bDay = ds1Map[p] || ''; 
+            
+            const ds = ds2Map[p];
+            
+            if (!ds) {
+                htmlTable += `<tr>
+                    <td>${p}</td><td>${exCid}</td><td>${rawAmt}</td><td>${method}</td><td>${bDay}</td><td></td>
+                    <td class="match-null" colspan="3">Không tìm thấy trong Datasuit 2</td>
+                </tr>`;
+                continue;
+            }
+
+            const matchCid = (exCid === ds.cUid);
+            const matchOs = (exAmt === ds.totOs);
+            const matchNorm = (exAmt === ds.normBill);
+            const diff = exAmt - ds.totOs;
+
+            htmlTable += `<tr>
+                <td>${p}</td>
+                <td>${exCid}</td>
+                <td>${rawAmt}</td>
+                <td>${method}</td>
+                <td>${bDay}</td>
+                <td style="text-align: right;">${diff === 0 ? '0' : diff.toLocaleString('vi-VN')}</td>
+                <td class="${matchCid?'match-true':'match-false'}">${matchCid?'TRUE':'FALSE'}</td>
+                <td class="${matchOs?'match-true':'match-false'}">${matchOs?'TRUE':'FALSE'}</td>
+                <td class="${matchNorm?'match-true':'match-false'}">${matchNorm?'TRUE':'FALSE'}</td>
+            </tr>`;
+        }
+        document.getElementById('result-compare2').innerHTML = htmlTable + `</table>`;
+        showToast("Đối soát Compare 2 hoàn tất!", "#10b981");
+    }
+
+    // --- TIỆN ÍCH COPY ---
+    function copyToClipboard(elementId) {
+        const text = document.getElementById(elementId).innerText;
+        if (text.includes("Kết quả sẽ hiển thị ở đây...") || !text.trim()) return showToast("Chưa có nội dung để copy!", "#f59e0b");
+        navigator.clipboard.writeText(text).then(() => showToast("Đã copy vào bộ nhớ tạm!", "#10b981"));
+    }
+
+    function copyTableToClipboard(tableId) {
+        const table = document.getElementById(tableId);
+        if(!table) return showToast("Chưa có bảng kết quả!", "#f59e0b");
+        const range = document.createRange(); range.selectNode(table);
+        window.getSelection().removeAllRanges(); window.getSelection().addRange(range);
+        try { 
+            document.execCommand('copy'); 
+            window.getSelection().removeAllRanges(); 
+            showToast("Đã copy bảng (Màu sắc sẽ được giữ khi dán vào Excel)!", "#10b981"); 
+        } 
+        catch(err) { showToast("Lỗi copy!", "#ef4444"); }
     }
 
     function showToast(message, bgColor) {
         const toast = document.getElementById("toast");
-        toast.innerHTML = message;
-        toast.style.backgroundColor = bgColor;
-        toast.className = "show";
-        setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 2500);
+        toast.innerHTML = message; toast.style.backgroundColor = bgColor; toast.className = "show";
+        setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3500);
     }
 </script>
 
