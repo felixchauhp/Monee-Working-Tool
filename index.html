@@ -126,7 +126,7 @@
         /* --- TABLE STYLES --- */
         .table-result { width: 100%; border-collapse: collapse; text-align: left; background: #fff;}
         .table-result th, .table-result td { padding: 8px 10px; border: 1px solid var(--border-color); }
-        .table-result th { position: sticky; top: 0; white-space: nowrap; }
+        .table-result th { position: sticky; top: 0; white-space: nowrap; z-index: 2; }
         .match-true { color: #059669; font-weight: bold; background: #ecfdf5;}
         .match-false { color: #dc2626; font-weight: bold; background: #fef2f2;}
         .match-null { color: var(--text-light); font-style: italic; }
@@ -152,95 +152,124 @@
         <img src="monee_logo.png" alt="Monee Logo">
     </div>
     
-    <h2>Monee Quick Tool</h2>
-    <div class="subtitle">©️ 2026 Felix Chau Hoai Phuc</div>
+    <h2>Monee Working Tool</h2>
+    <div class="subtitle">Hệ thống xử lý và đối soát dữ liệu</div>
 
     <!-- TABS HEADER -->
     <div class="tabs">
-        <button class="tab-btn active" onclick="openTab('tab-main', this)">Tool</button>
-        <button class="tab-btn" onclick="openTab('tab-compare1', this)">Compare 1</button>
-        <button class="tab-btn" onclick="openTab('tab-compare2', this)">Compare 2</button>
+        <button class="tab-btn active" onclick="openTab('tab-main', this)">Quick Tool</button>
+        <button class="tab-btn" onclick="openTab('tab-sum', this)">Total</button>
+        <button class="tab-btn" onclick="openTab('tab-compare1', this)">Early Repay/ SMS 1</button>
+        <button class="tab-btn" onclick="openTab('tab-compare2', this)">SMS 2</button>
     </div>
 
-    <!-- TAB 1: TOOL XỬ LÝ -->
+    <!-- TAB 1: TOOL XỬ LÝ TEXT -->
     <div id="tab-main" class="tab-content active">
-        <textarea id="input-main" placeholder="Dán danh sách dữ liệu từ Excel vào đây..."></textarea>
+        <textarea id="input-main" placeholder="Dán danh sách dữ liệu từ Excel vào đây."></textarea>
         
         <div class="action-buttons">
-            <button class="btn-action btn-comma" onclick="processMain('comma')"><i class="fa-solid fa-code"></i> Thành a,b,c</button>
-            <button class="btn-action btn-quote" onclick="processMain('quote')"><i class="fa-solid fa-quote-left"></i> Thành 'a','b','c'</button>
-            <button class="btn-action btn-sum" onclick="processMain('sum')"><i class="fa-solid fa-calculator"></i> Tính tổng</button>
+            <button class="btn-action btn-comma" onclick="processMain('comma')"><i class="fa-solid fa-code"></i> Chuyển đổi thành a,b,c</button>
+            <button class="btn-action btn-quote" onclick="processMain('quote')"><i class="fa-solid fa-quote-left"></i> Chuyển đổi thành 'a','b','c'</button>
         </div>
 
         <div class="result-header">
             <span class="result-title">Kết quả:</span>
-            <button class="btn-copy" onclick="copyToClipboard('result-main')"><i class="fa-regular fa-copy"></i> Copy kết quả</button>
+            <button class="btn-copy" onclick="copyToClipboard('result-main')"><i class="fa-regular fa-copy"></i> Sao chép kết quả</button>
         </div>
         <div id="result-main" class="result-box">Kết quả sẽ hiển thị ở đây...</div>
 
         <div class="footer-stats">
-            <span>Số lượng cell đã xử lý: <span id="cell-count">0</span></span>
+            <span>Số lượng ô đã xử lý: <span id="cell-count-main">0</span></span>
         </div>
     </div>
 
-    <!-- TAB 2: COMPARE 1 (SHEET 1) -->
+    <!-- TAB 2: TÍNH TỔNG -->
+    <div id="tab-sum" class="tab-content">
+        <textarea id="input-sum" placeholder="Dán danh sách các con số từ Excel vào đây (có thể chứa số âm, dấu phẩy)."></textarea>
+        
+        <div class="action-buttons">
+            <button class="btn-action btn-sum" onclick="processSum()"><i class="fa-solid fa-calculator"></i> Tính Tổng</button>
+        </div>
+
+        <div class="result-header">
+            <span class="result-title">Kết quả Tổng:</span>
+            <button class="btn-copy" onclick="copyToClipboard('result-sum')"><i class="fa-regular fa-copy"></i> Sao chép kết quả</button>
+        </div>
+        <div id="result-sum" class="result-box" style="font-size: 24px; font-weight: bold; text-align: center; display: flex; align-items: center; justify-content: center;">0</div>
+
+        <div class="footer-stats">
+            <span>Số lượng ô đã xử lý: <span id="cell-count-sum">0</span></span>
+        </div>
+    </div>
+
+    <!-- TAB 3: COMPARE 1 (SHEET 1) -->
     <div id="tab-compare1" class="tab-content">
         <div class="grid-2">
             <div class="input-group">
                 <label>1. Cột Platform User ID (Excel)</label>
-                <textarea id="c1-ex-pid" class="half-height" placeholder="Dán cột Platform User ID..."></textarea>
+                <textarea id="c1-ex-pid" class="half-height" placeholder="Dán cột Platform User ID."></textarea>
             </div>
             <div class="input-group">
                 <label>2. Cột Credit UID (Excel)</label>
-                <textarea id="c1-ex-cid" class="half-height" placeholder="Dán cột Credit UID..."></textarea>
+                <textarea id="c1-ex-cid" class="half-height" placeholder="Dán cột Credit UID."></textarea>
             </div>
         </div>
         
         <div class="input-group">
-            <label>3. Dán bảng từ Datasuit (Cần: platform_user_id, user_id, 3 cột amount frozen, has_wrriteoff)</label>
-            <textarea id="c1-ds" class="half-height" placeholder="Copy toàn bộ bảng từ Datasuit dán vào đây..."></textarea>
+            <label>3. Dán bảng từ Datasuit (Cần các cột: platform_user_id, user_id, 3 cột amount frozen, has_writeoff)</label>
+            <textarea id="c1-ds" class="half-height" placeholder="Sao chép toàn bộ bảng từ Datasuit và dán vào đây."></textarea>
         </div>
         
-        <button class="btn-action btn-compare" onclick="runCompare1()"><i class="fa-solid fa-layer-group"></i> So Khớp Compare 1 (Sheet 1)</button>
+        <button class="btn-action btn-compare" onclick="runCompare1()"><i class="fa-solid fa-layer-group"></i> Thực hiện So sánh 1 (Bảng tính 1)</button>
 
         <div class="result-header">
             <span class="result-title">Kết quả đối soát:</span>
-            <button class="btn-copy" onclick="copyTableToClipboard('table-res-1')"><i class="fa-regular fa-copy"></i> Copy Bảng</button>
+            <button class="btn-copy" onclick="copyTableToClipboard('table-res-1')"><i class="fa-regular fa-copy"></i> Sao chép Bảng</button>
         </div>
         <div id="result-compare1" class="result-box" style="padding: 0;">
             <div style="padding: 16px; color: var(--text-light);">Kết quả sẽ hiển thị ở đây...</div>
         </div>
+        
+        <!-- Bổ sung thanh thống kê Compare 1 -->
+        <div class="footer-stats">
+            <span>Số lượng dòng đã xử lý: <span id="cell-count-c1">0</span></span>
+        </div>
     </div>
 
-    <!-- TAB 3: COMPARE 2 (SHEET 2) -->
+    <!-- TAB 4: COMPARE 2 (SHEET 2) -->
     <div id="tab-compare2" class="tab-content">
         <div class="grid-2">
             <div class="input-group">
                 <label>1. Dán 3 cột (Platform User ID, Credit UID, Amount)</label>
-                <textarea id="c2-ex-combined" class="half-height" placeholder="Copy 3 cột liền nhau từ Excel và dán thẳng vào đây..."></textarea>
+                <textarea id="c2-ex-combined" class="half-height" placeholder="Sao chép 3 cột liền nhau từ Excel và dán thẳng vào đây."></textarea>
             </div>
             <div class="input-group">
-                <label>2. Cột Hình thức thanh toán</label>
-                <textarea id="c2-ex-method" class="half-height" placeholder="Dán cột Hình thức thanh toán vào đây..."></textarea>
+                <label>2. Cột Hình thức Thanh toán</label>
+                <textarea id="c2-ex-method" class="half-height" placeholder="Dán cột Hình thức Thanh toán vào đây."></textarea>
             </div>
         </div>
         
         <div class="input-group">
-            <label>3. Dán bảng từ Datasuit (Cần: platform_user_id, credit_user_id, total_amount_os, total_of_normal_bill)</label>
+            <label>3. Dán bảng từ Datasuit (Cần các cột: platform_user_id, credit_user_id, total_amount_os, total_of_normal_bill)</label>
             <span style="font-size: 12px; color: #ef4444; font-weight: 600; display: block; margin-bottom: 8px;">
-                * Cột "Bill Day" sẽ được tool tự động trích xuất từ bảng Datasuit mà bạn đã dán ở Tab Compare 1.
+                * Cột "Bill Day" sẽ được công cụ tự động trích xuất từ bảng Datasuit mà bạn đã dán ở tab Early Repay/ SMS 1.
             </span>
-            <textarea id="c2-ds" class="half-height" placeholder="Copy toàn bộ bảng từ Datasuit dán vào đây..."></textarea>
+            <textarea id="c2-ds" class="half-height" placeholder="Sao chép toàn bộ bảng từ Datasuit và dán vào đây."></textarea>
         </div>
         
-        <button class="btn-action btn-compare" onclick="runCompare2()"><i class="fa-solid fa-money-check-dollar"></i> So Khớp Compare 2 (Sheet 2)</button>
+        <button class="btn-action btn-compare" onclick="runCompare2()"><i class="fa-solid fa-money-check-dollar"></i> Thực hiện So sánh 2 (Bảng tính 2)</button>
 
         <div class="result-header">
             <span class="result-title">Kết quả đối soát:</span>
-            <button class="btn-copy" onclick="copyTableToClipboard('table-res-2')"><i class="fa-regular fa-copy"></i> Copy Bảng</button>
+            <button class="btn-copy" onclick="copyTableToClipboard('table-res-2')"><i class="fa-regular fa-copy"></i> Sao chép Bảng</button>
         </div>
         <div id="result-compare2" class="result-box" style="padding: 0;">
             <div style="padding: 16px; color: var(--text-light);">Kết quả sẽ hiển thị ở đây...</div>
+        </div>
+
+        <!-- Bổ sung thanh thống kê Compare 2 -->
+        <div class="footer-stats">
+            <span>Số lượng dòng đã xử lý: <span id="cell-count-c2">0</span></span>
         </div>
     </div>
 
@@ -262,36 +291,49 @@
         return document.getElementById(id).value.split('\n').map(l => l.trim()).filter(l => l !== "");
     }
 
-    // --- LOGIC TAB 1: MAIN TOOL ---
+    // --- HÀM HELPER: LẤY GIÁ TRỊ AN TOÀN TỪ MẢNG ---
+    function safeGet(arr, index) {
+        return (arr && arr[index] !== undefined) ? arr[index].trim() : "";
+    }
+
+    // --- LOGIC TAB 1: MAIN TOOL (Text) ---
     function processMain(actionType) {
         const lines = getLines('input-main');
-        if (lines.length === 0) return showToast("Vui lòng dán dữ liệu vào ô trống!", "#ef4444");
+        if (lines.length === 0) return showToast("Vui lòng nhập dữ liệu vào trường trống!", "#ef4444");
         
-        document.getElementById('cell-count').innerText = lines.length;
+        document.getElementById('cell-count-main').innerText = lines.length;
         if (actionType === 'comma') {
             document.getElementById('result-main').innerText = lines.join(',');
         } else if (actionType === 'quote') {
             document.getElementById('result-main').innerText = lines.map(l => `'${l}'`).join(',');
-        } else if (actionType === 'sum') {
-            let totalSum = 0, foundNumber = false;
-            lines.forEach(line => {
-                const num = parseFloat(line.replace(/,/g, ''));
-                if (!isNaN(num)) { totalSum += num; foundNumber = true; }
-            });
-            document.getElementById('result-main').innerText = foundNumber ? totalSum.toString() : "0";
-            if (!foundNumber) showToast("Không tìm thấy giá trị số nào!", "#f59e0b");
         }
     }
 
-    // --- LOGIC TAB 2: COMPARE 1 (SHEET 1) ---
+    // --- LOGIC TAB 2: TÍNH TỔNG ---
+    function processSum() {
+        const lines = getLines('input-sum');
+        if (lines.length === 0) return showToast("Vui lòng nhập dữ liệu vào trường trống!", "#ef4444");
+        
+        document.getElementById('cell-count-sum').innerText = lines.length;
+        let totalSum = 0, foundNumber = false;
+        
+        lines.forEach(line => {
+            const num = parseFloat(line.replace(/,/g, ''));
+            if (!isNaN(num)) { totalSum += num; foundNumber = true; }
+        });
+        
+        document.getElementById('result-sum').innerText = foundNumber ? totalSum.toString() : "0";
+        if (!foundNumber) showToast("Không tìm thấy giá trị số nào để tính toán!", "#f59e0b");
+    }
+
+    // --- LOGIC TAB 3: COMPARE 1 (SHEET 1) ---
     function runCompare1() {
         const pids = getLines('c1-ex-pid');
         const cids = getLines('c1-ex-cid');
         const dsRaw = document.getElementById('c1-ds').value.trim();
 
-        if (pids.length === 0 || cids.length === 0 || !dsRaw) return showToast("Vui lòng nhập đủ dữ liệu!", "#ef4444");
+        if (pids.length === 0 || cids.length === 0 || !dsRaw) return showToast("Vui lòng nhập đầy đủ dữ liệu!", "#ef4444");
         
-        // Cảnh báo nếu lệch số dòng
         if (pids.length !== cids.length) {
             return showToast(`Lỗi: Cột Platform User ID có ${pids.length} dòng, nhưng cột Credit UID có ${cids.length} dòng. Vui lòng dán lại cho khớp!`, "#ef4444");
         }
@@ -306,19 +348,23 @@
             camp: dsHeaders.indexOf('campaign_temp_frozen_credit_amount'),
             writeoff: dsHeaders.indexOf('has_wrriteoff')
         };
-        for (let k in cols) if (cols[k] === -1) return showToast(`DS thiếu cột: ${k}`, "#ef4444");
+        for (let k in cols) if (cols[k] === -1) return showToast(`Dữ liệu Datasuit thiếu cột: ${k}`, "#ef4444");
 
         const dsMap = {};
         for (let i = 1; i < dsLines.length; i++) {
             const c = dsLines[i];
-            if (c.length > Math.max(...Object.values(cols))) {
-                dsMap[c[cols.platform].trim()] = {
-                    userId: c[cols.user].trim(), writeoff: c[cols.writeoff].trim().toLowerCase(),
-                    limitOk: (parseFloat(c[cols.perm].replace(/,/g,''))||0) === 0 && 
-                             (parseFloat(c[cols.temp].replace(/,/g,''))||0) === 0 && 
-                             (parseFloat(c[cols.camp].replace(/,/g,''))||0) === 0
-                };
-            }
+            if (!c || c.length === 0) continue;
+            
+            const pId = safeGet(c, cols.platform);
+            if (!pId) continue; 
+
+            dsMap[pId] = {
+                userId: safeGet(c, cols.user), 
+                writeoff: safeGet(c, cols.writeoff).toLowerCase(),
+                limitOk: (parseFloat(safeGet(c, cols.perm).replace(/,/g,''))||0) === 0 && 
+                         (parseFloat(safeGet(c, cols.temp).replace(/,/g,''))||0) === 0 && 
+                         (parseFloat(safeGet(c, cols.camp).replace(/,/g,''))||0) === 0
+            };
         }
 
         let htmlTable = `<table id="table-res-1" class="table-result">
@@ -332,7 +378,7 @@
         for (let i = 0; i < pids.length; i++) {
             const p = pids[i]; const ds = dsMap[p];
             if (!ds) {
-                htmlTable += `<tr><td>${p}</td><td class="match-null" colspan="3">Not Found</td></tr>`; continue;
+                htmlTable += `<tr><td>${p}</td><td class="match-null" colspan="3">Không tìm thấy trong DS</td></tr>`; continue;
             }
             const matchCid = (cids[i] === ds.userId);
             const matchW = (ds.writeoff === 'no');
@@ -344,23 +390,25 @@
             </tr>`;
         }
         document.getElementById('result-compare1').innerHTML = htmlTable + `</table>`;
-        showToast("Đối soát Compare 1 hoàn tất!", "#10b981");
+        
+        // Cập nhật số cell đã xử lý
+        document.getElementById('cell-count-c1').innerText = pids.length;
+        
+        showToast("Đối soát So sánh 1 hoàn tất!", "#10b981");
     }
 
-    // --- LOGIC TAB 3: COMPARE 2 (SHEET 2) ---
+    // --- LOGIC TAB 4: COMPARE 2 (SHEET 2) ---
     function runCompare2() {
         const combinedLines = getLines('c2-ex-combined');
         const methods = getLines('c2-ex-method');
         const dsRaw2 = document.getElementById('c2-ds').value.trim();
 
-        if (combinedLines.length === 0 || !dsRaw2) return showToast("Vui lòng nhập tối thiểu 3 cột Excel và Datasuit!", "#ef4444");
+        if (combinedLines.length === 0 || !dsRaw2) return showToast("Vui lòng nhập tối thiểu ba cột Excel và dữ liệu Datasuit!", "#ef4444");
 
-        // Cảnh báo nếu lệch số dòng
         if (methods.length > 0 && combinedLines.length !== methods.length) {
-            return showToast(`Lỗi: Dữ liệu 3 cột đầu có ${combinedLines.length} dòng, nhưng cột Hình thức thanh toán có ${methods.length} dòng. Vui lòng kiểm tra lại!`, "#ef4444");
+            return showToast(`Lỗi: Dữ liệu 3 cột đầu có ${combinedLines.length} dòng, nhưng cột Hình thức TT có ${methods.length} dòng. Vui lòng kiểm tra lại!`, "#ef4444");
         }
 
-        // Lấy Datasuit 1 (để trích xuất Bill Day)
         let ds1Map = {};
         const dsRaw1 = document.getElementById('c1-ds').value.trim();
         if (dsRaw1) {
@@ -370,14 +418,14 @@
             const idxB1 = dsHeaders1.indexOf('bill_day');
             if (idxP1 !== -1 && idxB1 !== -1) {
                 for(let i=1; i<dsLines1.length; i++) {
-                    if(dsLines1[i].length > Math.max(idxP1, idxB1)) {
-                        ds1Map[dsLines1[i][idxP1].trim()] = dsLines1[i][idxB1].trim();
-                    }
+                    const c = dsLines1[i];
+                    if (!c || c.length === 0) continue;
+                    const pId = safeGet(c, idxP1);
+                    if (pId) ds1Map[pId] = safeGet(c, idxB1);
                 }
             }
         }
 
-        // Xử lý Datasuit 2
         const dsLines2 = dsRaw2.split('\n').map(l => l.split('\t'));
         const dsHeaders2 = dsLines2[0].map(h => h.trim().toLowerCase());
         const cols = {
@@ -388,19 +436,22 @@
         };
         
         if (cols.platform === -1 || cols.creditUser === -1 || cols.totalOs === -1 || cols.normalBill === -1) {
-            return showToast(`DS 2 thiếu cột (cần: platform_user_id, credit_user_id, total_amount_os, total_of_normal_bill)`, "#ef4444");
+            return showToast(`Dữ liệu Datasuit 2 thiếu cột (cần: platform_user_id, credit_user_id, total_amount_os, total_of_normal_bill)`, "#ef4444");
         }
 
         const ds2Map = {};
         for (let i = 1; i < dsLines2.length; i++) {
             const c = dsLines2[i];
-            if (c.length > Math.max(...Object.values(cols))) {
-                ds2Map[c[cols.platform].trim()] = {
-                    cUid: c[cols.creditUser].trim(),
-                    totOs: parseFloat(c[cols.totalOs].replace(/,/g, '')) || 0,
-                    normBill: parseFloat(c[cols.normalBill].replace(/,/g, '')) || 0
-                };
-            }
+            if (!c || c.length === 0) continue;
+            
+            const pId = safeGet(c, cols.platform);
+            if (!pId) continue; 
+
+            ds2Map[pId] = {
+                cUid: safeGet(c, cols.creditUser),
+                totOs: parseFloat(safeGet(c, cols.totalOs).replace(/,/g, '')) || 0,
+                normBill: parseFloat(safeGet(c, cols.normalBill).replace(/,/g, '')) || 0
+            };
         }
 
         let htmlTable = `<table id="table-res-2" class="table-result">
@@ -415,12 +466,12 @@
                 <th style="background-color: #ff0000; color: #fff;">TOTAL AMOUNT (OUTSTANDING)</th>
                 <th style="background-color: #ff0000; color: #fff;">CHECK AMOUNT (NORMAL)</th>
             </tr>`;
-            
+
         for (let i = 0; i < combinedLines.length; i++) {
             const splitCols = combinedLines[i].split('\t');
-            const p = splitCols[0] ? splitCols[0].trim() : '';
-            const exCid = splitCols[1] ? splitCols[1].trim() : '';
-            const rawAmt = splitCols[2] ? splitCols[2].trim() : '0';
+            const p = safeGet(splitCols, 0);
+            const exCid = safeGet(splitCols, 1);
+            const rawAmt = safeGet(splitCols, 2) || '0';
             const exAmt = parseFloat(rawAmt.replace(/,/g, '')) || 0;
             
             const method = methods[i] ? methods[i].trim() : '';
@@ -454,14 +505,18 @@
             </tr>`;
         }
         document.getElementById('result-compare2').innerHTML = htmlTable + `</table>`;
-        showToast("Đối soát Compare 2 hoàn tất!", "#10b981");
+        
+        // Cập nhật số cell đã xử lý
+        document.getElementById('cell-count-c2').innerText = combinedLines.length;
+        
+        showToast("Đối soát So sánh 2 hoàn tất!", "#10b981");
     }
 
     // --- TIỆN ÍCH COPY ---
     function copyToClipboard(elementId) {
         const text = document.getElementById(elementId).innerText;
-        if (text.includes("Kết quả sẽ hiển thị ở đây...") || !text.trim()) return showToast("Chưa có nội dung để copy!", "#f59e0b");
-        navigator.clipboard.writeText(text).then(() => showToast("Đã copy vào bộ nhớ tạm!", "#10b981"));
+        if (text.includes("Kết quả sẽ hiển thị ở đây...") || text === "0" || !text.trim()) return showToast("Chưa có nội dung để sao chép!", "#f59e0b");
+        navigator.clipboard.writeText(text).then(() => showToast("Đã sao chép vào bộ nhớ tạm!", "#10b981"));
     }
 
     function copyTableToClipboard(tableId) {
